@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zentro — Video Title & Description Generator</title>
+
+<meta name="description"
+content="Zentro helps creators generate video titles, descriptions, hashtags and keywords from their video topic.">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#f5f7fb;
+  color:#171717;
+}
+
+/* NAVBAR */
+
+header{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e7e9ee;
+  display:flex;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.nav{
+  width:100%;
+  max-width:1100px;
+  margin:auto;
+  padding:0 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:26px;
+  font-weight:900;
+  color:#315bea;
+  letter-spacing:-1px;
+}
+
+.logo span{
+  color:#111;
+}
+
+.nav-right{
+  color:#666;
+  font-size:14px;
+}
+
+/* HERO */
+
+.hero{
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+  padding:80px 20px 45px;
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 13px;
+  border-radius:20px;
+  background:#e9efff;
+  color:#315bea;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:clamp(38px,7vw,65px);
+  line-height:1.05;
+  letter-spacing:-3px;
+  margin-bottom:18px;
+}
+
+.hero h1 span{
+  color:#315bea;
+}
+
+.hero p{
+  color:#707070;
+  max-width:650px;
+  margin:auto;
+  font-size:17px;
+}
+
+/* GENERATOR */
+
+.generator{
+  max-width:1050px;
+  margin:20px auto 80px;
+  padding:0 20px;
+}
+
+.generator-box{
+  background:#fff;
+  border:1px solid #e1e4eb;
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 12px 40px rgba(0,0,0,.06);
+}
+
+.label{
+  font-size:14px;
+  font-weight:800;
+  margin-bottom:9px;
+}
+
+textarea{
+  width:100%;
+  min-height:180px;
+  resize:vertical;
+  border:1px solid #dfe2e8;
+  border-radius:11px;
+  padding:16px;
+  outline:none;
+  font-size:15px;
+  line-height:1.6;
+  color:#222;
+}
+
+textarea:focus{
+  border-color:#315bea;
+  box-shadow:0 0 0 3px rgba(49,91,234,.08);
+}
+
+.controls{
+  display:flex;
+  gap:12px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+select{
+  border:1px solid #dfe2e8;
+  padding:12px;
+  border-radius:9px;
+  background:white;
+  outline:none;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  border-radius:9px;
+  padding:12px 20px;
+  font-weight:800;
+}
+
+.generate{
+  background:#315bea;
+  color:white;
+  flex:1;
+}
+
+.generate:hover{
+  background:#2449c9;
+}
+
+.clear{
+  background:#f0f1f4;
+  color:#444;
+}
+
+/* RESULTS */
+
+.results{
+  margin-top:25px;
+  display:none;
+}
+
+.results.show{
+  display:block;
+}
+
+.result-card{
+  background:#fff;
+  border:1px solid #e1e4eb;
+  border-radius:15px;
+  padding:22px;
+  margin-bottom:16px;
+}
+
+.result-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:12px;
+}
+
+.result-head h3{
+  font-size:17px;
+}
+
+.copy{
+  padding:8px 13px;
+  background:#eef2ff;
+  color:#315bea;
+  font-size:12px;
+}
+
+.copy:hover{
+  background:#dfe7ff;
+}
+
+.output{
+  color:#444;
+  white-space:pre-wrap;
+  line-height:1.7;
+  font-size:15px;
+}
+
+.title-option{
+  padding:13px;
+  background:#f7f8fb;
+  border:1px solid #e7e9ef;
+  border-radius:9px;
+  margin-bottom:9px;
+  font-weight:700;
+}
+
+.title-option:last-child{
+  margin-bottom:0;
+}
+
+.loading{
+  display:none;
+  text-align:center;
+  padding:18px;
+  color:#315bea;
+  font-weight:bold;
+}
+
+.loading.show{
+  display:block;
+}
+
+/* FEATURES */
+
+.features{
+  max-width:1050px;
+  margin:0 auto 80px;
+  padding:0 20px;
+}
+
+.features h2{
+  text-align:center;
+  font-size:32px;
+  margin-bottom:35px;
+}
+
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.feature{
+  background:white;
+  border:1px solid #e2e5eb;
+  border-radius:13px;
+  padding:24px;
+}
+
+.feature-icon{
+  width:42px;
+  height:42px;
+  border-radius:9px;
+  background:#edf2ff;
+  color:#315bea;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+.feature h3{
+  margin-bottom:7px;
+}
+
+.feature p{
+  color:#777;
+  font-size:14px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#171717;
+  color:#aaa;
+  text-align:center;
+  padding:30px 20px;
+  font-size:13px;
+}
+
+.footer-logo{
+  color:white;
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .hero{
+    padding-top:55px;
+  }
+
+  .hero h1{
+    letter-spacing:-2px;
+  }
+
+  .generator-box{
+    padding:18px;
+  }
+
+  .feature-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nav-right{
+    display:none;
+  }
+
+  .controls{
+    flex-direction:column;
+  }
+
+  .generate{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<header>
+  <div class="nav">
+
+    <div class="logo">
+      Zentro<span>.</span>
+    </div>
+
+    <div class="nav-right">
+      Video Creator Tools
+    </div>
+
+  </div>
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="badge">
+    FREE CREATOR TOOL
+  </div>
+
+  <h1>
+    Turn your video into
+    <span>better titles.</span>
+  </h1>
+
+  <p>
+    Paste your video topic or script and Zentro will create
+    catchy titles, descriptions, hashtags and keywords.
+  </p>
+
+</section>
+
+
+<!-- GENERATOR -->
+
+<section class="generator">
+
+  <div class="generator-box">
+
+    <div class="label">
+      What is your video about?
+    </div>
+
+    <textarea
+      id="videoInput"
+      placeholder="Example: I made a funny Independence Day video in a government school with different characters..."
+    ></textarea>
+
+    <div class="controls">
+
+      <select id="platform">
+
+        <option value="youtube">
+          YouTube
+        </option>
+
+        <option value="shorts">
+          YouTube Shorts
+        </option>
+
+        <option value="instagram">
+          Instagram
+        </option>
+
+      </select>
+
+      <select id="style">
+
+        <option value="viral">
+          Viral
+        </option>
+
+        <option value="professional">
+          Professional
+        </option>
+
+        <option value="funny">
+          Funny
+        </option>
+
+        <option value="curiosity">
+          Curiosity
+        </option>
+
+      </select>
+
+      <button
+        class="generate"
+        onclick="generateContent()"
+      >
+        ✨ Generate
+      </button>
+
+      <button
+        class="clear"
+        onclick="clearAll()"
+      >
+        Clear
+      </button>
+
+    </div>
+
+    <div
+      class="loading"
+      id="loading"
+    >
+      Creating your content...
+    </div>
+
+
+    <!-- RESULTS -->
+
+    <div
+      class="results"
+      id="results"
+    >
+
+      <!-- TITLES -->
+
+      <div class="result-card">
+
+        <div class="result-head">
+
+          <h3>🎬 Title Ideas</h3>
+
+          <button
+            class="copy"
+            onclick="copyTitles()"
+          >
+            Copy All
+          </button>
+
+        </div>
+
+        <div id="titles"></div>
+
+      </div>
+
+
+      <!-- DESCRIPTION -->
+
+      <div class="result-card">
+
+        <div class="result-head">
+
+          <h3>📝 Description</h3>
+
+          <button
+            class="copy"
+            onclick="copyText('description')"
+          >
+            Copy
+          </button>
+
+        </div>
+
+        <div
+          class="output"
+          id="description"
+        ></div>
+
+      </div>
+
+
+      <!-- HASHTAGS -->
+
+      <div class="result-card">
+
+        <div class="result-head">
+
+          <h3>#️⃣ Hashtags</h3>
+
+          <button
+            class="copy"
+            onclick="copyText('hashtags')"
+          >
+            Copy
+          </button>
+
+        </div>
+
+        <div
+          class="output"
+          id="hashtags"
+        ></div>
+
+      </div>
+
+
+      <!-- KEYWORDS -->
+
+      <div class="result-card">
+
+        <div class="result-head">
+
+          <h3>🔑 Keywords</h3>
+
+          <button
+            class="copy"
+            onclick="copyText('keywords')"
+          >
+            Copy
+          </button>
+
+        </div>
+
+        <div
+          class="output"
+          id="keywords"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features">
+
+  <h2>Made for creators.</h2>
+
+  <div class="feature-grid">
+
+    <div class="feature">
+
+      <div class="feature-icon">
+        ✨
+      </div>
+
+      <h3>Catchy Titles</h3>
+
+      <p>
+        Get multiple title ideas instead of using
+        the same boring title every time.
+      </p>
+
+    </div>
+
+
+    <div class="feature">
+
+      <div class="feature-icon">
+        📝
+      </div>
+
+      <h3>Descriptions</h3>
+
+      <p>
+        Create ready-to-use descriptions for
+        your videos in seconds.
+      </p>
+
+    </div>
+
+
+    <div class="feature">
+
+      <div class="feature-icon">
+        #️⃣
+      </div>
+
+      <h3>Hashtags & Keywords</h3>
+
+      <p>
+        Get relevant hashtags and keywords based
+        on your video's topic.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="footer-logo">
+    Zentro
+  </div>
+
+  <div>
+    Simple tools for better content.
+  </div>
+
+  <br>
+
+  © 2026 Zentro. All rights reserved.
+
+</footer>
+
+
+<script>
+
+/* =========================
+   GENERATOR
+========================= */
+
+function generateContent(){
+
+  const input =
+    document
+    .getElementById("videoInput")
+    .value
+    .trim();
+
+  const platform =
+    document
+    .getElementById("platform")
+    .value;
+
+  const style =
+    document
+    .getElementById("style")
+    .value;
+
+  if(!input){
+
+    alert(
+      "Please enter your video topic or script first."
+    );
+
+    return;
+  }
+
+
+  const loading =
+    document
+    .getElementById("loading");
+
+  const results =
+    document
+    .getElementById("results");
+
+
+  loading.classList.add("show");
+
+  results.classList.remove("show");
+
+
+  setTimeout(()=>{
+
+    const topic =
+      cleanTopic(input);
+
+    const titles =
+      createTitles(topic, style, platform);
+
+    const description =
+      createDescription(topic, platform);
+
+    const hashtags =
+      createHashtags(topic, platform);
+
+    const keywords =
+      createKeywords(topic);
+
+
+    /* TITLES */
+
+    let titleHTML = "";
+
+    titles.forEach((title,index)=>{
+
+      titleHTML += `
+        <div class="title-option">
+          ${index + 1}. ${escapeHTML(title)}
+        </div>
+      `;
+
+    });
+
+    document
+      .getElementById("titles")
+      .innerHTML = titleHTML;
+
+
+    /* DESCRIPTION */
+
+    document
+      .getElementById("description")
+      .textContent = description;
+
+
+    /* HASHTAGS */
+
+    document
+      .getElementById("hashtags")
+      .textContent = hashtags;
+
+
+    /* KEYWORDS */
+
+    document
+      .getElementById("keywords")
+      .textContent = keywords;
+
+
+    loading.classList.remove("show");
+
+    results.classList.add("show");
+
+    results.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+  },700);
+
+}
+
+
+/* =========================
+   TOPIC CLEANER
+========================= */
+
+function cleanTopic(text){
+
+  text = text
+    .replace(/\s+/g," ")
+    .trim();
+
+  if(text.length > 100){
+
+    text =
+      text.substring(0,100)
+      .replace(/\s+\S*$/,"");
+
+  }
+
+  return text;
+}
+
+
+/* =========================
+   TITLE GENERATOR
+========================= */
+
+function createTitles(topic,style,platform){
+
+  const short =
+    topic
+    .replace(/[.!?]+$/,"")
+    .trim();
+
+
+  if(style === "funny"){
+
+    return [
+
+      `This Was NOT Supposed To Happen 😂`,
+
+      `${short} 😂 | You Won't Expect This`,
+
+      `Everything Went Wrong 😂`,
+
+      `We Actually Did This 💀`,
+
+      `The Funniest Part Was THIS 😂`
+
+    ];
+
+  }
+
+
+  if(style === "curiosity"){
+
+    return [
+
+      `You Won't Believe What Happened... 👀`,
+
+      `Nobody Expected This 😳`,
+
+      `This Changed Everything...`,
+
+      `Wait Till You See What Happens 👀`,
+
+      `The Ending Was Crazy 😱`
+
+    ];
+
+  }
+
+
+  if(style === "professional"){
+
+    return [
+
+      `${short} | Complete Guide`,
+
+      `Everything You Need To Know About ${short}`,
+
+      `${short} — Explained Simply`,
+
+      `How ${short} Actually Works`,
+
+      `A Simple Guide To ${short}`
+
+    ];
+
+  }
+
+
+  return [
+
+    `${short} 🔥`,
+
+    `I Tried ${short}... Here's What Happened 👀`,
+
+    `${short} — You Need To See This!`,
+
+    `This Is What Happened When We Tried It 😱`,
+
+    `The Result Was Unexpected! 🔥`
+
+  ];
+
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+function createDescription(topic,platform){
+
+  let ending = "";
+
+  if(platform === "youtube"){
+
+    ending =
+`If you enjoyed the video, don't forget to LIKE 👍
+SUBSCRIBE 🔔 and SHARE it with your friends.
+
+Thanks for watching! ❤️`;
+
+  }
+
+  else if(platform === "shorts"){
+
+    ending =
+`Like 👍 Follow/Subscribe 🔔 for more videos!
+
+#Shorts #YouTubeShorts`;
+
+  }
+
+  else{
+
+    ending =
+`Follow for more content ❤️
+Save this post and share it with your friends!`;
+
+  }
+
+
+  return `Welcome to the video! 🎬
+
+Today's video is about:
+${topic}
+
+We created this video to entertain, inform and share something interesting with you.
+
+Watch till the end to see the complete video and let us know your thoughts in the comments.
+
+${ending}`;
+
+}
+
+
+/* =========================
+   HASHTAGS
+========================= */
+
+function createHashtags(topic,platform){
+
+  const words =
+    topic
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/gi," ")
+    .split(/\s+/)
+    .filter(word =>
+      word.length > 3
+    );
+
+
+  const unique =
+    [...new Set(words)]
+    .slice(0,7);
+
+
+  let base =
+    unique
+    .map(word => "#" + word)
+    .join(" ");
+
+
+  if(platform === "shorts"){
+
+    base +=
+      " #Shorts #YouTubeShorts #ViralShorts";
+
+  }
+
+  else if(platform === "instagram"){
+
+    base +=
+      " #Instagram #Reels #ViralReels";
+
+  }
+
+  else{
+
+    base +=
+      " #YouTube #Creator #Video";
+
+  }
+
+
+  return base;
+
+}
+
+
+/* =========================
+   KEYWORDS
+========================= */
+
+function createKeywords(topic){
+
+  const words =
+    topic
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/gi," ")
+    .split(/\s+/)
+    .filter(word =>
+      word.length > 3
+    );
+
+
+  const unique =
+    [...new Set(words)];
+
+
+  const keywords = [];
+
+
+  unique.slice(0,8)
+    .forEach(word=>{
+      keywords.push(word);
+      keywords.push(
+        word + " video"
+      );
+    });
+
+
+  keywords.push(
+    "viral video",
+    "trending video",
+    "youtube video"
+  );
+
+
+  return [...new Set(keywords)]
+    .join(", ");
+
+}
+
+
+/* =========================
+   COPY FUNCTIONS
+========================= */
+
+function copyText(id){
+
+  const text =
+    document
+    .getElementById(id)
+    .textContent;
+
+  navigator.clipboard
+    .writeText(text)
+    .then(()=>{
+
+      alert("Copied successfully! ✅");
+
+    });
+
+}
+
+
+function copyTitles(){
+
+  const elements =
+    document
+    .querySelectorAll(".title-option");
+
+  let text = "";
+
+  elements.forEach(element=>{
+
+    text +=
+      element.textContent.trim()
+      + "\n";
+
+  });
+
+
+  navigator.clipboard
+    .writeText(text)
+    .then(()=>{
+
+      alert("Titles copied! ✅");
+
+    });
+
+}
+
+
+/* =========================
+   CLEAR
+========================= */
+
+function clearAll(){
+
+  document
+    .getElementById("videoInput")
+    .value = "";
+
+  document
+    .getElementById("results")
+    .classList.remove("show");
+
+  document
+    .getElementById("titles")
+    .innerHTML = "";
+
+  document
+    .getElementById("description")
+    .textContent = "";
+
+  document
+    .getElementById("hashtags")
+    .textContent = "";
+
+  document
+    .getElementById("keywords")
+    .textContent = "";
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(text){
+
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
